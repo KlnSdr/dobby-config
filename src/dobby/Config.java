@@ -5,6 +5,7 @@ import dobby.util.json.NewJson;
 import common.logger.Logger;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -39,11 +40,19 @@ public class Config {
      * Loads the config file
      */
     private void loadConfig() throws MalformedJsonException {
-        InputStream stream = Dobby.getMainClass().getResourceAsStream("resource/application.json");
-        String rawConfig = loadFileContent(stream);
+        try (InputStream stream = getClass().getClassLoader().getResourceAsStream("application.json")) {
+            if (stream == null) {
+                throw new IllegalStateException("application.json not found at root of the JAR");
+            }
 
-        configJson = NewJson.parse(rawConfig);
+            String rawConfig = loadFileContent(stream);
+            configJson = NewJson.parse(rawConfig);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load application.json", e);
+        }
     }
+
 
     private String loadFileContent(InputStream stream) {
         if (stream == null) {

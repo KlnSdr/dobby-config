@@ -1,5 +1,7 @@
 package dobby;
 
+import common.inject.annotations.Inject;
+import common.inject.annotations.RegisterFor;
 import dobby.exceptions.MalformedJsonException;
 import dobby.util.json.NewJson;
 import common.logger.Logger;
@@ -14,12 +16,13 @@ import java.util.stream.Collectors;
 /**
  * Class for loading the config file
  */
-public class Config {
-    private static Config instance;
-    private final Logger LOGGER = new Logger(Config.class);
+@RegisterFor(IConfig.class)
+public class Config implements IConfig {
+    private static final Logger LOGGER = new Logger(Config.class);
     private NewJson configJson = new NewJson();
 
-    private Config() {
+    @Inject
+    public Config() {
         try {
             loadConfig();
         } catch (MalformedJsonException e) {
@@ -27,13 +30,6 @@ public class Config {
             LOGGER.trace(e);
             System.exit(1);
         }
-    }
-
-    public static Config getInstance() {
-        if (instance == null) {
-            instance = new Config();
-        }
-        return instance;
     }
 
     /**

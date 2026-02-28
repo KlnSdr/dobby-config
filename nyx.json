@@ -13,7 +13,7 @@
       },
       {
         "group": "common",
-        "name": "inject",
+        "name": "inject-api",
         "version": "1.0-snapshot"
       }
     ]

@@ -1,7 +1,7 @@
 package dobby;
 
-import common.inject.annotations.Inject;
-import common.inject.annotations.RegisterFor;
+import common.inject.api.Inject;
+import common.inject.api.RegisterFor;
 import dobby.exceptions.MalformedJsonException;
 import dobby.util.json.NewJson;
 import common.logger.Logger;
